@@ -1,0 +1,29 @@
+14 6 * * * bluetoothctl disconnect F8:5C:7E:59:26:D7 & sleep 10; bluetoothctl connect F8:5C:7E:59:26:D7; > .Projects/puppy_schedule/log.txt 2>&1
+
+15 6 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule wake > ./Projects/puppy_schedule/log.txt 2>&1
+
+17 6 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule margowake > ./Projects/puppy_schedule/log.txt 2>&1
+
+0 8 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule meal > ./Projects/puppy_schedule/log.txt 2>&1
+
+30 10 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule merlinbathroom > ./Projects/puppy_schedule/log.txt 2>&1
+
+32 10 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule margobathroom > ./Projects/puppy_schedule/log.txt 2>&1
+
+0 13 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule meal > ./Projects/puppy_schedule/log.txt 2>&1
+
+00 15 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule merlinbathroom > ./Projects/puppy_schedule/log.txt 2>&1
+
+02 15 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule margobathroom > ./Projects/puppy_schedule/log.txt 2>&1
+
+30 18 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule meal > ./Projects/puppy_schedule/log.txt 2>&1
+
+30 20 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule merlinbathroom > ./Projects/puppy_schedule/log.txt 2>&1
+
+32 20 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule margobathroom > ./Projects/puppy_schedule/log.txt 2>&1
+
+30 21 * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule sleep > ./Projects/puppy_schedule/log.txt 2>&1
+
+14 * * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule stopidle > ./Projects/puppy_schedule/log.txt 2>&1
+
+* * * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/dotred/Projects/puppy_schedule/target/release/puppy_schedule merlinbathroom > ./Projects/puppy_schedule/log.txt 2>&1
