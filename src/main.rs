@@ -33,7 +33,7 @@ fn main() {
     let file_path;
     
     if arguments.contains(&"merlinbathroom".to_string()) {
-        sink.set_volume(0.7);
+        sink.set_volume(0.5);
         file_path = format!("./sounds/light_theme.wav");
         dur_seconds = 20.0;
     } else if arguments.contains(&"meal".to_string()) {
