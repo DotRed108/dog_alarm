@@ -30,47 +30,53 @@ fn main() {
 
     let sink = Sink::try_new(&stream_handle).expect("sink could not be created");
     let dur_seconds;
-    let file_path;
+    let sound_name;
     
     if arguments.contains(&"merlinbathroom".to_string()) {
         sink.set_volume(0.5);
-        file_path = format!("./sounds/light_theme.wav");
+        sound_name = format!("light_theme.wav");
         dur_seconds = 20.0;
     } else if arguments.contains(&"meal".to_string()) {
         sink.set_volume(0.7);
-        file_path = format!("./sounds/CruelAngelsThesis.wav");
+        sound_name = format!("CruelAngelsThesis.wav");
         dur_seconds = 23.0;
     } else if arguments.contains(&"wake".to_string()) {
         sink.set_volume(0.6);
-        file_path = format!("./sounds/HxH_Departure!.wav");
+        sound_name = format!("HxH_Departure!.wav");
         dur_seconds = 21.0;
     } else if arguments.contains(&"nap".to_string()) {
         sink.set_volume(0.019);
-        file_path = format!("./sounds/DogSleepMusicShortened.mp3");
+        sound_name = format!("DogSleepMusicShortened.mp3");
         dur_seconds = 6600.0; // 1hr 50min
     } else if arguments.contains(&"sleep".to_string()) {
         sink.set_volume(0.6);
-        file_path = format!("./sounds/harvest_dawn_oblivion.wav");
+        sound_name = format!("harvest_dawn_oblivion.wav");
         dur_seconds = 20.0;
     } else if arguments.contains(&"stopidle".to_string()) {
         sink.set_volume(0.01);
-        file_path = format!("./sounds/rumble.wav");
+        sound_name = format!("rumble.wav");
         dur_seconds = 1.0;
     } else if arguments.contains(&"margowake".to_string()) {
         sink.set_volume(0.4);
-        file_path = format!("./sounds/Peril_Synth.wav");
+        sound_name = format!("Peril_Synth.wav");
         dur_seconds = 30.0;
     } else if arguments.contains(&"margobathroom".to_string()) {
         sink.set_volume(0.6);
-        file_path = format!("./sounds/Red Velvet(Russian Roulette).wav");
+        sound_name = format!("Red Velvet(Russian Roulette).wav");
         dur_seconds = 15.0;
     } else {
-        file_path = format!("./sounds/Red Velvet(Russian Roulette).wav");
+        sound_name = format!("Red Velvet(Russian Roulette).wav");
         sink.set_volume(0.0);
         dur_seconds = 0.0;
     }
 
-    // let file_path = "./sounds/Charli xcx.wav";
+    #[cfg(target_os = "linux")]
+    let file_path = "/home/dotred/Projects/dog_alarm/sounds/";
+    #[cfg(target_os = "windows")]
+    let file_path = "./sounds/";
+
+    let file_path = format!("{file_path}{sound_name}");
+    
 
     println!("{file_path}");
     println!("{:?}", std::time::SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default());

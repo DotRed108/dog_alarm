@@ -1,1 +1,3 @@
-Program Started at 1746110583
+/home/dotred/Projects/dog_alarm/sounds/Red Velvet(Russian Roulette).wav
+1746114961.240812917s
+Script Complete
