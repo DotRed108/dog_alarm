@@ -1,9 +1,13 @@
-use rodio::{cpal::{self, traits::HostTrait}, Decoder, OutputStream, Sink};
+use rodio::{cpal::{self, traits::HostTrait}, Decoder, DeviceTrait, OutputStream, Sink};
 use std::{fs::File, time::UNIX_EPOCH};
 use std::io::BufReader;
 use std::process::Command;
 
-const OUTPUT_DEVICE: &str = "bluez_output.F8_5C_7E_59_26_D7.1"; // "JBL Clip 4" for windows // bluez_output.F8_5C_7E_59_26_D7.1 for linux
+#[cfg(target_os = "linux")]
+const OUTPUT_DEVICE: &str = "bluez_output.F8_5C_7E_59_26_D7.1";
+
+#[cfg(target_os = "windows")]
+const OUTPUT_DEVICE: &str = "JBL Clip 4";
 
 fn main() {
     let arguments: Vec<String> = std::env::args().collect();
@@ -12,56 +16,56 @@ fn main() {
     let mut output_stream = OutputStream::try_default().expect("could not find default device");
 
     // THIS IS FOR LINUX
+    #[cfg(target_os = "linux")]
     let original_device = switch_device(OUTPUT_DEVICE);
 
-    // THIS IS FOR WINDOWS
-    // for device in devices {
-    //     if device.name().expect("device has no name").contains(OUTPUT_DEVICE) {
-    //         output_stream = OutputStream::try_from_device(&device.into()).unwrap();
-    //     }
-    // }
+   #[cfg(target_os = "windows")]
+    for device in devices {
+        if device.name().expect("device has no name").contains(OUTPUT_DEVICE) {
+            output_stream = OutputStream::try_from_device(&device.into()).unwrap();
+        }
+    }
 
     let stream_handle = output_stream.1;
 
     let sink = Sink::try_new(&stream_handle).expect("sink could not be created");
     let dur_seconds;
     let file_path;
-    let user = "dotred";
     
     if arguments.contains(&"merlinbathroom".to_string()) {
         sink.set_volume(0.7);
-        file_path = format!("/home/{user}/Projects/puppy_schedule/sounds/light_theme.wav");
+        file_path = format!("./sounds/light_theme.wav");
         dur_seconds = 20.0;
     } else if arguments.contains(&"meal".to_string()) {
         sink.set_volume(0.7);
-        file_path = format!("/home/{user}/Projects/puppy_schedule/sounds/CruelAngelsThesis.wav");
+        file_path = format!("./sounds/CruelAngelsThesis.wav");
         dur_seconds = 23.0;
     } else if arguments.contains(&"wake".to_string()) {
         sink.set_volume(0.6);
-        file_path = format!("/home/{user}/Projects/puppy_schedule/sounds/HxH_Departure!.wav");
+        file_path = format!("./sounds/HxH_Departure!.wav");
         dur_seconds = 21.0;
     } else if arguments.contains(&"nap".to_string()) {
         sink.set_volume(0.019);
-        file_path = format!("/home/{user}/Projects/puppy_schedule/sounds/DogSleepMusicShortened.mp3");
+        file_path = format!("./sounds/DogSleepMusicShortened.mp3");
         dur_seconds = 6600.0; // 1hr 50min
     } else if arguments.contains(&"sleep".to_string()) {
         sink.set_volume(0.6);
-        file_path = format!("/home/{user}/Projects/puppy_schedule/sounds/harvest_dawn_oblivion.wav");
+        file_path = format!("./sounds/harvest_dawn_oblivion.wav");
         dur_seconds = 20.0;
     } else if arguments.contains(&"stopidle".to_string()) {
         sink.set_volume(0.01);
-        file_path = format!("/home/{user}/Projects/puppy_schedule/sounds/rumble.wav");
+        file_path = format!("./sounds/rumble.wav");
         dur_seconds = 1.0;
     } else if arguments.contains(&"margowake".to_string()) {
         sink.set_volume(0.4);
-        file_path = format!("/home/{user}/Projects/puppy_schedule/sounds/Peril_Synth.wav");
+        file_path = format!("./sounds/Peril_Synth.wav");
         dur_seconds = 30.0;
     } else if arguments.contains(&"margobathroom".to_string()) {
         sink.set_volume(0.6);
-        file_path = format!("/home/{user}/Projects/puppy_schedule/sounds/Red Velvet(Russian Roulette).wav");
+        file_path = format!("./sounds/Red Velvet(Russian Roulette).wav");
         dur_seconds = 15.0;
     } else {
-        file_path = format!("/home/{user}/Projects/puppy_schedule/sounds/Red Velvet(Russian Roulette).wav");
+        file_path = format!("./sounds/Red Velvet(Russian Roulette).wav");
         sink.set_volume(0.0);
         dur_seconds = 0.0;
     }
@@ -76,13 +80,16 @@ fn main() {
     sink.append(source);
 
     std::thread::sleep(std::time::Duration::from_secs_f32(dur_seconds));
-    switch_back_device(&original_device);
+    #[cfg(target_os = "linux")]
+    {
+        switch_back_device(&original_device);
 
-    std::thread::sleep(std::time::Duration::from_secs_f32(1.0));
+        std::thread::sleep(std::time::Duration::from_secs_f32(1.0));
 
-    switch_back_device(&original_device);
+        switch_back_device(&original_device);
 
-    std::thread::sleep(std::time::Duration::from_secs_f32(1.0));
+        std::thread::sleep(std::time::Duration::from_secs_f32(1.0));
+    }
     println!("Script Complete");
 }
 
